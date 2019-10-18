@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 
 class MovieController {
     
@@ -66,9 +67,25 @@ class MovieController {
     
     // MARK: - CRUD MEthods
     
+    func createMovie(with title: String, hasWatched: Bool, context: NSManagedObjectContext){
+        
+        Movie(title: title, hasWatched: true, context: context)
+        CoreDataStack.share.saveToPersistentStore()
+        
+    }
+    
+    func updateMovie(movie: Movie, title: String, hasWatched: Bool){
+        
+        movie.title = title
+        movie.hasWatched = true
+        CoreDataStack.share.saveToPersistentStore()
+    }
     
     
-    
+    func delete(movie: Movie) {
+        CoreDataStack.share.mainContext.delete(movie)
+        CoreDataStack.share.saveToPersistentStore()
+    }
     
     
     
