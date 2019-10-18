@@ -24,7 +24,7 @@ class MovieController {
     
     private let apiKey = "4cc920dab8b729a619647ccc4d191d5e"
     private let baseURL = URL(string: "https://api.themoviedb.org/3/search/movie")!
-    let firebaseURL = URL(string: "https://movies-f2bd9.firebaseio.com/")!
+    let firebaseURL = URL(string: "https://movies-f2bd9.firebaseio.com")!
     
     
     
@@ -127,7 +127,7 @@ class MovieController {
                 
                 let movieRepresentations = Array(try decoder.decode([String: MovieRepresentation].self, from: data).values)
                 
-                self.updateMovie(with: movieRepresentations)
+                self.updateFirebaseMovie(with: movieRepresentations)
                 
                 
                 
@@ -139,7 +139,7 @@ class MovieController {
     
     //Update any Movie on the server
     
-    func updateMovie(with representation: [MovieRepresentation]) {
+    func updateFirebaseMovie(with representation: [MovieRepresentation]) {
         
         let identifiersToFetch = representation.map({ $0.identifier }) //Grab the first identifier
         let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, representation))
