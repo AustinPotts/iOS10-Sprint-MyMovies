@@ -28,6 +28,8 @@ class CoreDataStack {
                 fatalError("Error loading Persistent Stores: \(error)")
             }
         })
+        //Adding for multiple MOC
+        container.viewContext.automaticallyMergesChangesFromParent = true
         return container
     }() // Creating only one instance for use
     
@@ -35,12 +37,13 @@ class CoreDataStack {
         return container.viewContext
     }
     
-    func saveToPersistentStore() {
+    //Changing this Standard save to persistence store, to save to the context
+    func save(context: NSManagedObjectContext = CoreDataStack.share.mainContext) {
         do{
-            try mainContext.save()
+            try context.save()
         } catch {
             NSLog("Error saving context \(error)")
-            mainContext.reset()
+            context.reset()
         }
     }
     
